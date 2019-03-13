@@ -1,5 +1,5 @@
 <template>
-  <div class="lists-show">
+  <div class="lists-show"><router-link
     <h1>My Lists</h1>
     <div v-for="list in lists">
       <h2>{{ list.name }}</h2>
@@ -28,7 +28,8 @@
                     priority: "",
                     status: "",
                     deadline: ""
-                    }
+                    },
+              errors: []
                 }
           },
         };
@@ -45,7 +46,7 @@
         console.log(response.data);
         this.task = response.data;
       });
-      
+
     }, 
 
 
@@ -56,6 +57,10 @@
             console.log("Success", response.data);
             this.$router.push("/");
           });
+      },
+
+      submit: function() {
+        
       }
     }
 </script>

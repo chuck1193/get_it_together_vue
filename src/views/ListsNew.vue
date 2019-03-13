@@ -54,7 +54,7 @@ export default {
 created: function() {},
   methods: {
     submit: function() {
-      console.log("Rating flushed");
+      console.log("Created");
       var params = {
                     name: this.newListName,
                     task_name: this.newTaskName,
