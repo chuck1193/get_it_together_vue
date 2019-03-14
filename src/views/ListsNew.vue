@@ -1,4 +1,4 @@
-<template>
+<template> 
   <div class="lists-new">
   <router-link to="/">Home</router-link>
   <router-link to="/logout">Log Out</router-link>
@@ -8,24 +8,9 @@
     </ul>
     <div class="container">
       <form v-on:submit.prevent="submit()">
-        <div>
-        Name: <input v-model="newListName">
-        </div>
-        <div>Tasks</div>
-        <div>
-        Task Name: <input v-model="newTaskName">
-        </div>
-
-        <div>
-        Description: <input v-model="newTaskContent">
-        </div>
-
-        <div>
-        Priority: <input v-model="newTaskPriority">
-        </div>
-
-        <div>
-        Deadline: <input v-model="newTaskDeadline">
+        <div class="form-group">
+          <label>Name:</label>
+         <input class="form-control" type="text" v-model="newListName">
         </div>
 
         <input type="submit" value="Submit" name="btn btn-success">
@@ -44,10 +29,6 @@ export default {
   data: function() {
     return {
       newListName: "",
-      newTaskName: "",
-      newTaskContent: "",
-      newTaskPriority: "",
-      newTaskDeadline: "",
       errors: []
     };
   },
@@ -55,17 +36,15 @@ created: function() {},
   methods: {
     submit: function() {
       console.log("Created");
+      var user_id = localStorage.getItem("user_id")
       var params = {
                     name: this.newListName,
-                    task_name: this.newTaskName,
-                    task_description: this.newTaskContent,
-                    task_priority: this.newTaskPriority,
-                    task_deadline: this.newTaskDeadline
+                    user_id: user_id
                     };
       axios.post("/api/lists", params)
         .then(response => {
           console.log("List Created", response.data);
-          this.$router.push("/lists");
+          this.$router.push("/tasks");
         }).catch(error => {
           this.errors = error.response.data.errors;
         });

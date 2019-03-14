@@ -1,10 +1,25 @@
 <template>
   <div class="users-show">
-    <div v-for="user in users">
+    <router-link to="/">Home</router-link>
+    <div>
+      <router-link to="/logout">Logout</router-link>
+    </div>
+    <div>
       <h1>{{ user.first_name}} {{ user.last_name }}</h1>
     </div>
     <h1>My lists</h1>
-    
+    <div v-for="list in user.lists">
+      <h1>{{ list.name }}</h1>
+    </div>
+    <div v-for="task in user.lists.tasks">
+      <h2>{{ task.name }}</h2>
+      <h2>{{ task.content }}</h2>
+      <h2>{{ task.priority }}</h2>
+      <h2>{{ task.status }}</h2>
+      <h2>{{ task.deadline }}</h2>
+
+    </div>
+    <router-link class="btn btn-success" to="/list/new"> Make a New List </router-link>
   </div>
 </template>
 
@@ -14,30 +29,32 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      users: {
+      user: {
               id: "",
               first_name: "",
               last_name: "",
               email: "",
               lists: {
                     name: "",
-                    task: {
+                    tasks: [{
+                            list_id: "",
                             name: "",
                             content: "",
                             priority: "",
                             status: "",
                             deadline: ""
-                          }
+                          }]
                     },
               errors: []
               }
             };
         },
   created: function() {
-        axios.get("/api/users")
+        var user_id = localStorage.getItem("user_id");
+        axios.get("/api/users/" + user_id)
           .then(response => {
             console.log(response.data);
-            this.users = response.data;
+            this.user = response.data;
           }).catch(error => {
             this.errors = error.response.data.errors;
             console.log(response.data.errors);

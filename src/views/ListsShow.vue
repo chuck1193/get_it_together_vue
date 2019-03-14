@@ -1,12 +1,13 @@
 <template>
   <div class="lists-show"><router-link
     <h1>My Lists</h1>
-    <div v-for="list in lists">
-      <h2>{{ list.name }}</h2>
+    <div v-for="list in user.lists">
+      <router-link to="/tasks">
+        <h2>{{ list.name }}</h2>
+      </router-link>
     </div>
-      <h3 v-for="task in tasks">{{ task.name }}</h3>
     <router-link to="/lists/new">Create a New List</router-link>
-    <router-link to="'/lists/' + list.id + '/edit' ">Edit</router-link>
+    <router-link to="'/lists/' + list.id + '/update' ">Edit</router-link>
     <button v-on:click="destroyList()">Delete</button>
   </div>
 </template>
@@ -40,13 +41,6 @@
           console.log(response.data);
           this.list = response.data;
         });
-
-    axios.get("/api/tasks/" + this.$route.params.id)
-      .then(response => {
-        console.log(response.data);
-        this.task = response.data;
-      });
-
     }, 
 
 
