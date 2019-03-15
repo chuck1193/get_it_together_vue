@@ -1,14 +1,51 @@
 <template>
-  <div class="lists-show"><router-link
-    <h1>My Lists</h1>
-    <div v-for="list in user.lists">
-      <router-link to="/tasks">
-        <h2>{{ list.name }}</h2>
-      </router-link>
+  <div class="lists-show">
+    <h1>{{ list.name }}</h1>
+
+    <h1>Creating a New Task</h1>
+    <ul>
+      <li v-for="error in errors">{{ error }}</li>
+    </ul>
+      <div v-for="task in list.tasks">
+        <router-link :to="'/tasks/' + task.id">
+          <h2>{{ task.name }}</h2>
+        </router-link>
+      </div>
+    <div class="container">
+      <form v-on:submit.prevent="submit()">
+        <div class="form-group">
+          <label>Name:</label>
+         <input class="form-control" type="text" v-model="newTaskName">
+        </div>
+
+        <div class="form-group">
+          <label>Description:</label>  
+        <input class="form-control" type="text" v-model="newTaskContent">
+        </div>
+
+        <div class="form-group">
+          <label>Priority:</label>
+          <select class="form-control" v-model="newTaskPriority">
+            <option value="highest">Highest</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+            <option value="lowest">Lowest</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Deadline:</label>
+         <input class="form-control" type="date" v-model="newTaskDeadline">
+        </div>
+
+        <input type="submit" value="Submit" name="btn btn-success">
+      </form>
+
+      
+      <router-link to="'/lists/' + list.id + '/edit' ">Edit</router-link>
+      <button v-on:click="destroyList()">Delete</button>
     </div>
-    <router-link to="/lists/new">Create a New List</router-link>
-    <router-link to="'/lists/' + list.id + '/update' ">Edit</router-link>
-    <button v-on:click="destroyList()">Delete</button>
   </div>
 </template>
 
@@ -21,40 +58,67 @@
   export default {
     data: function() {
       return {
-        lists: {
+        list: {
+              id: "",
               name: "", 
-              task: {
-                    name: "",
-                    content: "",
-                    priority: "",
-                    status: "",
-                    deadline: ""
-                    },
-              errors: []
-                }
-          },
-        };
-      },
+              tasks: [
+                        {
+                          id: "",
+                          name: "",
+                          content: "",
+                          priority: "",
+                          status: "",
+                          deadline: ""
+                        }
+                      ]
+
+                  },
+                  newTaskName: "",
+                  newTaskContent: "",
+                  newTaskPriority: "",
+                  newTaskDeadline: "",
+                  errors: []
+          };
+        },
     created: function() {
       axios.get("/api/lists/" + this.$route.params.id)
         .then(response => {
-          console.log(response.data);
           this.list = response.data;
+        }).catch(error => {
+          this.errors = error.response.data.erros;
         });
     }, 
 
 
     methods: {
       destroyList: function() {
-        axios.delete("/api/lists/" + this.review.id)
+        axios.delete("/api/lists/" + this.list.id)
           .then(response => {
             console.log("Success", response.data);
             this.$router.push("/");
-          });
+          }).catch(error => {
+          this.errors = error.response.data.errors;
+        });
       },
-
       submit: function() {
-        
+            console.log("Created");
+            var params = {
+                          list_id: this.$route.params.id,
+                          name: this.newTaskName,
+                          content: this.newTaskContent,
+                          priority: this.newTaskPriority,
+                          deadline: this.newTaskDeadline,
+                          };
+
+            axios.post("/api/tasks", params)
+              .then(response => {
+                console.log("Task Created", response.data);
+                this.list.tasks.push(response.data);
+              }).catch(error => {
+                this.errors = error.response.data.errors;
+                console.log(this.errors);
+              });
+          }
       }
     }
 </script>

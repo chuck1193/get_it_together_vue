@@ -36,7 +36,7 @@ created: function() {},
   methods: {
     submit: function() {
       console.log("Created");
-      var user_id = localStorage.getItem("user_id")
+      var user_id = localStorage.getItem("user_id");
       var params = {
                     name: this.newListName,
                     user_id: user_id
@@ -44,9 +44,10 @@ created: function() {},
       axios.post("/api/lists", params)
         .then(response => {
           console.log("List Created", response.data);
-          this.$router.push("/tasks");
+          this.$router.push("/tasks/new");
         }).catch(error => {
           this.errors = error.response.data.errors;
+          console.log(this.errors);
         });
     }
   }

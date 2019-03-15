@@ -9,9 +9,11 @@
     </div>
     <h1>My lists</h1>
     <div v-for="list in user.lists">
-      <h1>{{ list.name }}</h1>
+      <router-link to="/lists">
+        <h1>{{ list.name }}</h1>
+      </router-link>
     </div>
-    <div v-for="task in user.lists.tasks">
+    <div v-for="task in user.tasks">
       <h2>{{ task.name }}</h2>
       <h2>{{ task.content }}</h2>
       <h2>{{ task.priority }}</h2>
@@ -19,7 +21,7 @@
       <h2>{{ task.deadline }}</h2>
 
     </div>
-    <router-link class="btn btn-success" to="/list/new"> Make a New List </router-link>
+    <router-link class="btn btn-success" to="/lists/new"> Make a New List </router-link>
   </div>
 </template>
 
