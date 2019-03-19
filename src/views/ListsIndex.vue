@@ -1,13 +1,12 @@
 <template>
   <div class="lists-index">
-    <router-link to="/">Home</router-link>
-    <router-link to="/logout">Log Out</router-link>
     <h1>My Lists</h1>
     <div v-for="list in lists">
         <router-link :to="'/lists/' + list.id">{{ list.name }}</router-link>
     </div>
 
-      <router-link class="btn btn-success" to="/list/new"> Make a New List </router-link>
+
+      <router-link class="btn btn-success" to="/lists/new"> Make a New List </router-link>
   </div>
 </template>
 
@@ -25,6 +24,8 @@ export default {
       this.lists = response.data;
     });
   },
-  methods: {}
+  methods: {
+    
+  }
 };
 </script>

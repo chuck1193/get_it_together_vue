@@ -1,7 +1,5 @@
 <template> 
   <div class="lists-new">
-  <router-link to="/">Home</router-link>
-  <router-link to="/logout">Log Out</router-link>
     <h1>Creating a New List</h1>
     <ul>
       <li v-for="error in errors">{{ error }}</li>
@@ -41,11 +39,12 @@ created: function() {},
                     name: this.newListName,
                     user_id: user_id
                     };
+
       axios.post("/api/lists", params)
-        .then(response => {
-          console.log("List Created", response.data);
-          this.$router.push("/tasks/new");
-        }).catch(error => {
+        .then( response => {
+          var list = response.data;
+          this.$router.push("/lists/" + list.id);
+        }).catch( error => {
           this.errors = error.response.data.errors;
           console.log(this.errors);
         });

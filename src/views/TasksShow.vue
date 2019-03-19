@@ -1,13 +1,12 @@
 <template>
   <div class="tasks-show">
-    <router-link to="/">Home</router-link>
-    <router-link to="/logout">Logout</router-link>
     <h1>{{ task.name }}</h1>
 
-    <h2>content: {{ task.content }}</h2>
-    <h2>priority: {{ task.priority }}</h2>
-    <h2>status: {{ task.status }}</h2>
-    <h2>deadline: {{ task.deadline }}</h2>
+    <h2>Content: {{ task.content }}</h2>
+    <h2>Priority: {{ task.priority }}</h2>
+    <h2>Status: {{ task.status }}</h2>
+    <h2>Deadline: {{ task.deadline }}</h2>
+    <h2>Category: {{ task.category }}</h2>
 
     <div>
       <router-link :to="'/lists/' + task.list_id">Back To List</router-link>
@@ -33,6 +32,7 @@
                     priority: "",
                     status: "",
                     deadline: "",
+                    category: "",
                     list_id: ""
                     },
               errors: []

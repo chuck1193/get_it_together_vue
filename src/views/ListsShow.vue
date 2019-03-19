@@ -1,16 +1,20 @@
 <template>
   <div class="lists-show">
+    <router-link to="/lists">Back to Your Lists</router-link>
     <h1>{{ list.name }}</h1>
 
-    <h1>Creating a New Task</h1>
-    <ul>
-      <li v-for="error in errors">{{ error }}</li>
-    </ul>
+    <router-link to="/sharedlists">Users sharing this list</router-link>
+
+
       <div v-for="task in list.tasks">
         <router-link :to="'/tasks/' + task.id">
           <h2>{{ task.name }}</h2>
         </router-link>
       </div>
+    <h1>Creating a New Task</h1>
+    <ul>
+      <li v-for="error in errors">{{ error }}</li>
+    </ul>
     <div class="container">
       <form v-on:submit.prevent="submit()">
         <div class="form-group">
@@ -39,11 +43,22 @@
          <input class="form-control" type="date" v-model="newTaskDeadline">
         </div>
 
+        <div class="form-group">
+          <label>Catergory:</label>
+          <select class="form-control" v-model="newTaskCategory">
+            <option value="school">School</option>
+            <option value="grocery">Grocery</option>
+            <option value="work">Work</option>
+            <option value="home">Home</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        
+
         <input type="submit" value="Submit" name="btn btn-success">
       </form>
 
-      
-      <router-link to="'/lists/' + list.id + '/edit' ">Edit</router-link>
       <button v-on:click="destroyList()">Delete</button>
     </div>
   </div>
@@ -68,7 +83,8 @@
                           content: "",
                           priority: "",
                           status: "",
-                          deadline: ""
+                          deadline: "",
+                          category: ""
                         }
                       ]
 
@@ -77,6 +93,8 @@
                   newTaskContent: "",
                   newTaskPriority: "",
                   newTaskDeadline: "",
+                  newTaskCategory: "",
+                  selectedUser: "",
                   errors: []
           };
         },
@@ -108,6 +126,7 @@
                           content: this.newTaskContent,
                           priority: this.newTaskPriority,
                           deadline: this.newTaskDeadline,
+                          category: this.newTaskCategory,
                           };
 
             axios.post("/api/tasks", params)
@@ -119,6 +138,6 @@
                 console.log(this.errors);
               });
           }
-      }
+        }
     }
 </script>

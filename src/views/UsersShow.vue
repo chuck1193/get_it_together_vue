@@ -1,9 +1,5 @@
 <template>
   <div class="users-show">
-    <router-link to="/">Home</router-link>
-    <div>
-      <router-link to="/logout">Logout</router-link>
-    </div>
     <div>
       <h1>{{ user.first_name}} {{ user.last_name }}</h1>
     </div>
@@ -13,20 +9,22 @@
         <h1>{{ list.name }}</h1>
       </router-link>
     </div>
-    <div v-for="task in user.tasks">
-      <h2>{{ task.name }}</h2>
-      <h2>{{ task.content }}</h2>
-      <h2>{{ task.priority }}</h2>
-      <h2>{{ task.status }}</h2>
-      <h2>{{ task.deadline }}</h2>
+<!--     <div v-for="task in user.tasks">
+      <h2>Name: {{ task.name }}</h2>
+      <h2>Description: {{ task.content }}</h2>
+      <h2>Priority: {{ task.priority }}</h2>
+      <h2>Status: {{ task.status }}</h2>
+      <h2>Deadline: {{ task.deadline }}</h2>
+      <h2>Category: {{ task.category }}</h2>
 
-    </div>
+    </div> -->
     <router-link class="btn btn-success" to="/lists/new"> Make a New List </router-link>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+var Highcharts = require('highcharts');
 
 export default {
   data: function() {
@@ -44,7 +42,8 @@ export default {
                             content: "",
                             priority: "",
                             status: "",
-                            deadline: ""
+                            deadline: "",
+                            category: ""
                           }]
                     },
               errors: []
@@ -64,7 +63,7 @@ export default {
           });
       }, 
   methods: {
-
+  
   }
 };
 </script>
