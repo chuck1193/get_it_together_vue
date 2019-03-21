@@ -2,7 +2,7 @@
   <div class="lists-index">
     <h1>My Lists</h1>
     <div v-for="list in lists">
-        <router-link :to="'/lists/' + list.id">{{ list.name }}</router-link>
+        <a :href="'/lists/' + list.id">{{ list.name }}</a>
     </div>
 
 
@@ -16,6 +16,8 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      user: [],
+      selectedUser: "",
       lists: [],
     };
   },

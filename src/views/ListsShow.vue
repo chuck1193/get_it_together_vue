@@ -3,8 +3,20 @@
     <router-link to="/lists">Back to Your Lists</router-link>
     <h1>{{ list.name }}</h1>
 
-    <router-link to="/sharedlists">Users sharing this list</router-link>
 
+
+    <!-- <router-link :to="/sharedlists/">Users sharing this list</router-link> -->
+    <div>
+      <router-link :to="'/lists/' + list.id + '/invitations/new'">Add a new user to the list:</router-link>
+    </div>
+
+    <div>
+      <ul>
+        <li v-for="user in list.invited_guests">{{ user.first_name + " " + user.last_name }}</li>
+      </ul> 
+    </div>
+
+    
 
       <div v-for="task in list.tasks">
         <router-link :to="'/tasks/' + task.id">
@@ -41,8 +53,9 @@
         <div class="form-group">
           <label>Deadline:</label>
          <input class="form-control" type="date" v-model="newTaskDeadline">
-        </div>
+        </div> 
 
+        
         <div class="form-group">
           <label>Catergory:</label>
           <select class="form-control" v-model="newTaskCategory">
@@ -68,7 +81,9 @@
   
 </style>
 <script>
-  var axios = require('axios')
+  var axios = require('axios');
+
+
 
   export default {
     data: function() {
@@ -86,7 +101,14 @@
                           deadline: "",
                           category: ""
                         }
-                      ]
+                      ],
+              invited_guests: [
+                                {
+                                  id: "",
+                                  first_name: "",
+                                  last_name: ""
+                                }
+                              ]
 
                   },
                   newTaskName: "",
@@ -94,7 +116,6 @@
                   newTaskPriority: "",
                   newTaskDeadline: "",
                   newTaskCategory: "",
-                  selectedUser: "",
                   errors: []
           };
         },
@@ -138,6 +159,6 @@
                 console.log(this.errors);
               });
           }
-        }
+        },
     }
 </script>
