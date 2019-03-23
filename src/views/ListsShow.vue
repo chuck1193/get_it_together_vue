@@ -4,8 +4,6 @@
     <h1>{{ list.name }}</h1>
 
 
-
-    <!-- <router-link :to="/sharedlists/">Users sharing this list</router-link> -->
     <div>
       <router-link :to="'/lists/' + list.id + '/invitations/new'">Add a new user to the list:</router-link>
     </div>
