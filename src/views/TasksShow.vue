@@ -1,12 +1,52 @@
 <template>
   <div class="tasks-show">
-    <h1>{{ task.name }}</h1>
+    <div v:for="task in tasks">
+      <h1 :v-model="task.name">{{ task.name}}</h1>
+    </div>
 
-    <h2>Content: {{ task.content }}</h2>
-    <h2>Priority: {{ task.priority }}</h2>
-    <h2>Status: {{ task.status }}</h2>
-    <h2>Deadline: {{ task.deadline }}</h2>
-    <h2>Category: {{ task.category }}</h2>
+  <table class="table table-hover">
+    <thead class="thead-dark">
+    </thead>
+  <tbody>
+    <tr>
+      <th scope="row"></th>
+      <td>Description:</td>
+      <td v-model="task.content">{{ task.content }}</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Priority:</td>
+      <td v-model="task.priority">{{ task.priority }}</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Status:</td>
+      <td >{{ task.status }}</td>
+
+      <td><label class="checkbox-inline"><input type="radio" v-on:change="completeTask()" value="complete" v-model="task.status">Complete</label></td>
+
+      <td><label class="checkbox-inline"><input type="radio" v-on:change="completeTask()" value="pending" v-model="task.status">Pending</label></td>
+  
+    </tr>
+
+    <tr>
+      <th scope="row"></th>
+      <td>Deadline:</td>
+      <td v-model="task.deadline"><span>{{ task.deadline | moment("dddd, MMMM Do YYYY") }}</span></td>
+
+      <td></td>
+    </tr>
+
+    <tr>
+      <th scope="row"></th>
+      <td>Category:</td>
+      <td v-model="task.category">{{ task.category }}</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
     <div>
       <router-link :to="'/lists/' + task.list_id">Back To List</router-link>
@@ -19,6 +59,7 @@
 <style>
   
 </style>
+
 <script>
   var axios = require('axios')
 
@@ -41,13 +82,26 @@
     created: function() {
       axios.get("/api/tasks/" + this.$route.params.id)
         .then(response => {
-          console.log(response.data)
           this.task = response.data;
         }).catch(error => {
           this.errors = error.response.data.errors;
         });
     }, 
     methods: {
+    
+      completeTask: function() {
+       var params = {
+                      status: this.task.status
+                     }
+
+       axios.patch("/api/tasks/" + this.task.id, params)
+        .then(response => {
+          this.task = response.data;
+        })
+      },
+
+
+
       destroyTask: function() {
         axios.delete("/api/tasks/" + this.task.id)
           .then(response => {

@@ -48,6 +48,7 @@
           </select>
         </div>
 
+
         <div class="form-group">
           <label>Deadline:</label>
          <input class="form-control" type="date" v-model="newTaskDeadline">

@@ -16,6 +16,9 @@
           Content: <input v-model="task.content">
         </div>
         
+        <div>
+          Status: <label class="checkbox-inline"><input type="checkbox" value="complete" class="uncomplete">complete</label>
+        </div>
 
         <div class="form-group">
           <label>Priority:</label>
@@ -30,7 +33,7 @@
 
         <div class="form-group">
           <label>Deadline:</label>
-         <input class="form-control" type="date" v-model="task.deadline">
+         <input class="form-control" type="datetime" v-model="task.deadline">
         </div>
 
         <div class="form-group">
@@ -80,8 +83,9 @@ var axios = require('axios');
     },
     methods: {
       submit: function() {
+        var task = this.task.id
         var params = {
-                      name: this.task.name,
+                      name: task.name,
                       content: this.task.content,
                       priority: this.task.priority,
                       status: this.task.status,
@@ -93,8 +97,6 @@ var axios = require('axios');
         axios.patch("/api/tasks/" + this.task.id, params)
           .then(response => {
            this.$router.push("/tasks/" + this.task.id);
-          }).catch(error => {
-          this.errors = error.response.data.errors;
           });
       }
     }

@@ -23,6 +23,14 @@
   </div>
 </template>
 
+<style>
+  #container {
+    min-width: 100px;
+    height: 400px;
+    margin: 0 autho;
+  }
+</style>
+
 <script>
 import axios from "axios";
 import Highcharts from "highcharts"
@@ -32,7 +40,7 @@ export default {
     return {
       user: {
               id: "",
-              first_name: "",
+              first_name: "", 
               last_name: "",
               email: "",
               lists: {
@@ -77,64 +85,36 @@ export default {
   methods: {
     addChart() {
       Highcharts.chart('container', {
-        chart: {
-                type: 'area'
-            },
-            title: {
-                text: 'Weekly Completed Tasks'
-            },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                type: 'datetime'
-            },
-            yAxis: {
-                title: {
-                    text: ''
-                },
-                labels: {
-                    formatter: function () {
-                        return this.value / 1000;
-                    }
-                }
-            },
-            
-            plotOptions: {
-                area: {
-                    stacking: 'normal',
-                    lineColor: '#666666',
-                    lineWidth: 1,
-                    marker: {
-                        lineWidth: 1,
-                        lineColor: '#666666'
-                    }
-                },
-                series: {
-                  pointStart: Date.UTC(2019, 2, 12),
-                  pointInterval: 24 * 3600 * 1000 // one day
-                  }
-            },
-
-            series: [{
-                pointStart: Date.now - 29,
-                // pointInterval: 24 * 60 * 60 * 1000, 
-                name: 'School',
-                data: [502, 635, 809, 0, 1402, 3634, 5268]
-            }, {
-                name: 'Home',
-                data: [106, 107, 111, 133, 221, 767, 1766]
-            }, {
-                name: 'Work',
-                data: [163, 203, 276, 408, 547, 729, 628]
-            }, {
-                name: 'Other',
-                data: [18, 31, 54, 156, 339, 818, 1201]
-            }]
-      });
-    }
-  }
-   
-    };
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Weekly Completed Tasks'
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        type: 'datetime'
+    },
+    yAxis: {
+        title: {
+            text: ''
+        }
+    },
+    legend: {
+      enabled: false
+    },
+    series: [{
+    
+        pointStart: Date.now() - 7,
+        pointInterval: 24 * 3600 * 1000,
+        name: 'Completed Tasks',
+        data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+    }]
+});
+      }
+    } 
+}   
 
 </script>
