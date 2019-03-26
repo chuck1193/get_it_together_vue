@@ -34,7 +34,7 @@
     <tr>
       <th scope="row"></th>
       <td>Deadline:</td>
-      <td v-model="task.deadline"><span>{{ task.deadline | moment("dddd, MMMM Do YYYY") }}</span></td>
+      <td v-model="task.deadline"><span>{{ task.deadline }}</span></td>
 
       <td></td>
     </tr>
@@ -89,7 +89,9 @@
     }, 
     methods: {
     
+  
       completeTask: function() {
+       var completed = 0;
        var params = {
                       status: this.task.status
                      }
@@ -98,7 +100,13 @@
         .then(response => {
           this.task = response.data;
         })
+        var completed = [];
+         if (status === "complete") { 
+          completed ++;
+        console.log(completed);
+         };
       },
+
 
 
 

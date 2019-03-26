@@ -15,8 +15,14 @@
     </div>
 
     
-
-      <div v-for="task in list.tasks">
+      <h1>Pending Tasks</h1>
+      <div v-for="task in list.pending_tasks">
+        <router-link :to="'/tasks/' + task.id">
+          <h2>{{ task.name }}</h2>
+        </router-link>
+      </div>
+      <h1>Complete Tasks</h1>
+      <div v-for="task in list.complete_tasks">
         <router-link :to="'/tasks/' + task.id">
           <h2>{{ task.name }}</h2>
         </router-link>
@@ -90,7 +96,18 @@
         list: {
               id: "",
               name: "", 
-              tasks: [
+              pending_tasks: [
+                        {
+                          id: "",
+                          name: "",
+                          content: "",
+                          priority: "",
+                          status: "",
+                          deadline: "",
+                          category: ""
+                        }
+                      ],
+              complete_tasks: [
                         {
                           id: "",
                           name: "",
@@ -109,13 +126,13 @@
                                 }
                               ]
 
-                  },
-                  newTaskName: "",
-                  newTaskContent: "",
-                  newTaskPriority: "",
-                  newTaskDeadline: "",
-                  newTaskCategory: "",
-                  errors: []
+                },
+          newTaskName: "",
+          newTaskContent: "",
+          newTaskPriority: "",
+          newTaskDeadline: "",
+          newTaskCategory: "",
+          errors: []
           };
         },
     created: function() {
@@ -151,11 +168,10 @@
 
             axios.post("/api/tasks", params)
               .then(response => {
-                console.log("Task Created", response.data);
-                this.list.tasks.push(response.data);
+                console.log(response.data);
+                this.list.pending_tasks.push(response.data);
               }).catch(error => {
                 this.errors = error.response.data.errors;
-                console.log(this.errors);
               });
           }
         },

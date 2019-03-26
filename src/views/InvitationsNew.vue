@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="invitations-new">
     <h1>Adding a user to the list</h1>
     
